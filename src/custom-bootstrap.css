@@ -1,0 +1,32 @@
+pre,
+.btn,
+.form-control,
+.panel,
+.panel-heading {
+	border-radius: 0;
+}
+
+.table.table-cobranzas {
+	border-top: 2px solid;
+}
+.table.table-cobranzas thead {
+	background-color: #a9a9a9;
+	color: white;
+}
+.table.table-cobranzas thead th {
+	font-weight: normal;
+}
+
+.well {
+	border-radius: 0;
+}
+.well-sm {
+	border-radius: 0;
+}
+
+.btn:active {
+	box-shadow: none !important;
+}
+.btn:focus {
+	outline: none !important;
+}
