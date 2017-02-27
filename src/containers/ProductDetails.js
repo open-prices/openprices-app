@@ -6,9 +6,12 @@ import memoize from '../memoize'
 import * as API from '../api/products'
 var getProduct = memoize(API.getProduct, { expires: 1000 * 60 })
 
+import * as Products from '../modules/products'
+
 import { StaticControl } from '../components/UI'
 
 import ProductVendors from './ProductVendors'
+import ProductPrices from './ProductPrices'
 
 function ms2p(state, ownProps) {
     var products = state.products.productsByBarcode
@@ -23,10 +26,7 @@ function md2p(dispatch, ownProps) {
     return {
         loadDetails: () => {
             return getProduct(barcode).then(product => {
-                dispatch({
-                    type: 'PRODUCTS/ADD',
-                    payload: product
-                })
+                dispatch(Products.add(product))
             })
         }
     }
@@ -68,9 +68,7 @@ class ProductDetails extends React.Component {
                     <Route render={() => (
                         <div className="flex" style={{ border: '1px solid gainsboro', borderTop: 'none', padding: '1rem' }}>
                             <Route path={match.url + '/vendors'} render={(props) => (<ProductVendors barcode={barcode} />)} />
-                            <Route path={match.url + '/prices'} render={(props) => (
-                                <div>{price}</div>
-                            )} />
+                            <Route path={match.url + '/prices'} render={(props) => (<ProductPrices barcode={barcode} />)} />
                         </div>
                     )} />
                 </Switch>
