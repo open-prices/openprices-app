@@ -23,8 +23,13 @@ class ProductsListFilters extends React.Component {
 
         return (
             <form className="form-inline" onSubmit={this.handleSubmit.bind(this)}>
-                <input placeholder="name" name="name" onChange={this.handleChange.bind(this)} value={name || ''} />
-                <button type="reset" onClick={this.handleReset.bind(this)}>R</button>
+                <input className="form-control" placeholder="name" name="name" onChange={this.handleChange.bind(this)} value={name || ''} />
+                {!name ? (<button className="btn btn-default" type="submit" style={{borderLeft:0}}>
+                    <i className="fa fa-search"/>
+                </button>):
+                (<button className="btn btn-default" type="reset" onClick={this.handleReset.bind(this)} style={{borderLeft:0}}>
+                    <i className="fa fa-times"/>
+                </button>)}
             </form>
         )
     }

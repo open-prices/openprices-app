@@ -39,7 +39,7 @@ class ProductsList extends React.Component {
         var { match, products } = this.props
 
         // eslint-disable-next-line
-        var groups = splitArray(products, 50)
+        var groups = splitArray(products, 15)
 
         var colWidth = Math.floor(12 / groups.length)
 
@@ -48,8 +48,8 @@ class ProductsList extends React.Component {
                 {groups.map(products => (
                     <div key={products[0].barcode} className={'col-sm-' + colWidth}>
                         {products.map(p => (
-                            <div key={p.barcode}>
-                                <Link to={`${match.path}/${p.barcode}`}>{p.name}</Link>
+                            <div key={p.barcode} className="ProductLink">
+                                <Link to={`${match.path}/${p.barcode}/prices`}>{p.name}</Link>
                                 {p.price && <span> ({p.price})</span>}
                             </div>
                         ))}
