@@ -2,7 +2,8 @@ pre,
 .btn,
 .form-control,
 .panel,
-.panel-heading {
+.panel-heading,
+.nav-pills > li > a {
 	border-radius: 0;
 }
 
@@ -29,4 +30,13 @@ pre,
 }
 .btn:focus {
 	outline: none !important;
+}
+
+
+.nav-pills > li > a {
+	font-weight: bolder;
+}
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+	color: white;
+	background-color: #00aacc;
 }
