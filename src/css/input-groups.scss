@@ -1,0 +1,7 @@
+.input-groups {
+    .input-group {
+        & > * {
+            border-bottom:0;
+        }
+    }
+}
