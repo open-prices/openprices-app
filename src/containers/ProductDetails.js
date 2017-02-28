@@ -8,7 +8,7 @@ var getProduct = memoize(API.getProduct, { expires: 1000 * 60 })
 
 import * as Products from '../modules/products'
 
-import { StaticControl } from '../components/UI'
+import { StaticControl, Card } from '../components/UI'
 
 import ProductVendors from './ProductVendors'
 import ProductPrices from './ProductPrices'
@@ -45,31 +45,44 @@ class ProductDetails extends React.Component {
 
         return (
             <div>
-                <h4>{name}</h4>
-                <div className="form-horizontal">
-                    <StaticControl label="Barcode" value={barcode} size={6} />
-                    <StaticControl label="Name" value={name} size={6} />
-                    <StaticControl label="Average Price" value={price} size={6} />
-                </div>
-                <ul className="nav nav-tabs nav-justified">
-                    <Route path={match.url + '/prices'} children={(props) => (
-                        <li className={props.match ? 'active' : ''}>
-                            <Link to={match.url + '/prices'}>prices</Link>
-                        </li>
-                    )} />
-                    <Route path={match.url + '/vendors'} children={(props) => (
-                        <li className={props.match ? 'active' : ''}>
-                            <Link to={match.url + '/vendors'}>vendors</Link>
-                        </li>
-                    )} />
-                </ul>
+                <Card style={{ marginBottom: '1rem' }}>
+                    <h4>{name}</h4>
+                </Card>
+                <Card style={{ marginBottom: '1rem' }}>
+                    <div className="form-horizontal">
+                        <StaticControl label="Barcode" value={barcode} size={6} />
+                        <StaticControl label="Name" value={name} size={6} />
+                        <StaticControl label="Average Price" value={price ? price.toFixed(2) : null} size={6} />
+                    </div>
+                </Card>
+                <Card style={{ marginBottom: '1rem' }}>
+                    <ul className="nav nav-pills nav-justified">
+                        <Route exact path={match.url + '/'} children={(props) => (
+                            <li className={props.match ? 'active' : ''}>
+                                <Link to={match.url}>description</Link>
+                            </li>
+                        )} />
+                        <Route path={match.url + '/prices'} children={(props) => (
+                            <li className={props.match ? 'active' : ''}>
+                                <Link to={match.url + '/prices'}>prices</Link>
+                            </li>
+                        )} />
+                        <Route path={match.url + '/vendors'} children={(props) => (
+                            <li className={props.match ? 'active' : ''}>
+                                <Link to={match.url + '/vendors'}>vendors</Link>
+                            </li>
+                        )} />
+                    </ul>
+                </Card>
                 <Switch>
                     <Route exact path={match.url} />
                     <Route render={() => (
-                        <div className="flex" style={{ border: '1px solid gainsboro', borderTop: 'none', padding: '1rem' }}>
-                            <Route path={match.url + '/vendors'} render={(props) => (<ProductVendors barcode={barcode} />)} />
-                            <Route path={match.url + '/prices'} render={(props) => (<ProductPrices barcode={barcode} />)} />
-                        </div>
+                        <Card>
+                            <div className="" style={{ padding: '1rem' }}>
+                                <Route path={match.url + '/vendors'} render={(props) => (<ProductVendors barcode={barcode} />)} />
+                                <Route path={match.url + '/prices'} render={(props) => (<ProductPrices barcode={barcode} />)} />
+                            </div>
+                        </Card>
                     )} />
                 </Switch>
             </div>

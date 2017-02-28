@@ -21,7 +21,7 @@ class ProductVendors extends React.Component {
             <div className="flex">
                 {vendors.map((vendor, i) => {
                     return (
-                        <StaticControl label={vendor.code} value={vendor.name} size={6}/>
+                        <StaticControl key={i} label={vendor.code} value={vendor.name} size={6}/>
                     )
                 })}
             </div>
