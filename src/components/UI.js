@@ -20,6 +20,15 @@ export function StaticControl(props) {
         </FormGroup>
     )
 }
+export function Card(props) {
+    var style = Object.assign({
+        boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+        padding: '1rem',
+        backgroundColor: 'white',
+    }, props.style)
+    var className = 'Card ' + (props.className||'')
+    return (<div {...props} className={className} style={style}></div>)
+}
 
 /**
  * ICONS
