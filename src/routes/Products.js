@@ -1,6 +1,8 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
 
+import { Card } from '../components/UI'
+
 import ProductsListFilters from '../containers/ProductsListFilters'
 import ProductsList from '../containers/ProductsList'
 import ProductDetails from '../containers/ProductDetails'
@@ -15,9 +17,12 @@ class Products extends React.Component {
             <div>
                 <Route exact path={match.url} component={(props) => (
                     <div>
-                        <h4>ProductsList</h4>
-                        <ProductsListFilters {...props} />
-                        <ProductsList {...props} />
+                        <Card style={{ marginBottom: '1rem' }}>
+                            <ProductsListFilters {...props} />
+                        </Card>
+                        <Card>
+                            <ProductsList {...props} />
+                        </Card>
                     </div>
                 )} />
                 <Route path={path.join(match.path, '/:barcode')} render={(props) => (
