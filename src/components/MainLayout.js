@@ -6,14 +6,14 @@ import ProductsRouter from '../routes/Products'
 import VendorsRouter from '../routes/Vendors'
 
 import Navbar from '../containers/Navbar'
-import LoginForm from '../components/LoginForm'
+import LoginForm from '../containers/LoginForm'
 
 
 
 function Sidebar(props) {
     return <div className="bg-15" style={{
-        padding: '1rem',
-        boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)'
+        padding: '0.5rem 0rem',
+        //boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)'
     }} {...props}></div>
 }
 function Content(props) {
@@ -39,7 +39,7 @@ class MainLayout extends React.Component {
                 <div style={{ height: '9%' }}>
                     <Navbar />
                 </div>
-                <div className="flex" style={{ height: '91%', backgroundColor: 'gainsboro' }}>
+                <div className="flex" style={{ height: '91%' }}>
                     <Sidebar>
                         <ul className="nav nav-pills nav-stacked">
                             <li>
@@ -56,15 +56,21 @@ class MainLayout extends React.Component {
                     </Sidebar>
                     <Content style={{ overflow: 'hidden' }}>
                         <div className="flex" style={{ height: '100%' }}>
-                            <Card style={{ backgroundColor: 'hsla(270, 50%, 80%, 1)', width:'100%' }}>
+                            <div style={{ width: '100%' }}>
                                 <Route path={'/products'} component={ProductsRouter} />
                                 <Route path={'/vendors'} component={VendorsRouter} />
+                                <Route path={'/user'} component={require('../containers/User').default} />
                                 <Route path={'/login'} render={(props) => (
-                                    <Card>
-                                        <LoginForm {...props} />
-                                    </Card>
+                                    <div className="flex" style={{
+                                        height: '100%', width: '100%',
+                                        alignItems: 'center'
+                                    }}>
+                                        <Card style={{ margin: '0 auto' }}>
+                                            <LoginForm {...props} />
+                                        </Card>
+                                    </div>
                                 )} />
-                            </Card>
+                            </div>
                         </div>
                     </Content>
 
