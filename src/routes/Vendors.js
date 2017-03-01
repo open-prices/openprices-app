@@ -27,6 +27,13 @@ class Vendors extends React.Component {
 
 export default Vendors
 
-var VendorsList = connect()(function VendorsList(props) {
-    return null
+var VendorsList = connect((state, ownProps) => {
+    
+    var { vendors, vendorsById } = state.vendors
+
+    return {
+        vendors : vendors.sort().map(id => vendorsById[id])
+    }
+})(function VendorsList(props) {
+    return <pre>{JSON.stringify(props, null, 2)}</pre>
 })

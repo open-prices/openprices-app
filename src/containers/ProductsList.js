@@ -6,7 +6,6 @@ function ms2p(state, ownProps) {
     var barcodes = state.products.products
     var productsByBarcode = state.products.productsByBarcode
     var filters = state.productsListFilters
-    console.log(state.productsListFilters)
 
     var simple_products = barcodes.map(bc => {
         var product = productsByBarcode[bc]
@@ -34,7 +33,6 @@ class ProductsList extends React.Component {
         load()
     }
     render() {
-        console.log('ProductsList.render')
 
         var { match, products } = this.props
 
