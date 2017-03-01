@@ -1,6 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+import NavbarLogin from './NavbarLogin'
+import NavbarUser from './NavbarUser'
+
 class Navbar extends React.Component {
     render() {
         return (
@@ -16,7 +19,8 @@ class Navbar extends React.Component {
                             </Link>
                         </div>
                         <div>
-                            <Link className="btn btn-sm btn-default navbar-btn" to="/login">Login</Link>
+                            <NavbarLogin />
+                            <NavbarUser />
                         </div>
                     </div>
                 </div>
