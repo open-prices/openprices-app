@@ -35,11 +35,14 @@ class MainLayout extends React.Component {
     }
     render() {
         return (
-            <div className="MainLayout max-height">
-                <div style={{ height: '9%' }}>
+            <div className="MainLayout max-height" style={{
+                display: 'flex',
+                flexDirection: 'column'
+            }}>
+                <div>
                     <Navbar />
                 </div>
-                <div className="flex" style={{ height: '91%' }}>
+                <div className="flex" style={{ flexGrow: '1' }}>
                     <Sidebar>
                         <ul className="nav nav-pills nav-stacked">
                             <li>
