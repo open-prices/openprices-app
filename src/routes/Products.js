@@ -22,7 +22,7 @@ class Products extends React.Component {
                 <Route exact path={match.url} component={(props) => (
                     <div>
                         <div style={{ marginBottom: '1rem' }} className="flex flex-space-around">
-                            <ProductsListFilters {...props} className="shadow"/>
+                            <ProductsListFilters {...props} className="shadow" />
                             <Link className="btn btn-default shadow" to={path.join(match.url, 'create')}>Add</Link>
                         </div>
                         <Card>
@@ -37,9 +37,7 @@ class Products extends React.Component {
                                 <Card>
                                     <h4>Add a product</h4>
                                 </Card>
-                                <Card>
-                                    <AddProductForm />
-                                </Card>
+                                <AddProductForm />
                             </div>
                         </RequireUser>
                     )} />
