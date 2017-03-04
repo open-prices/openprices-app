@@ -36,25 +36,22 @@ class ProductsList extends React.Component {
 
         var { match, products } = this.props
 
-        // eslint-disable-next-line
-        var groups = splitArray(products, 15)
-
-        var colWidth = Math.floor(12 / groups.length)
-
         return (
-            <div className="row">
-                {groups.map(products => (
-                    <div key={products[0].barcode} className={'col-sm-' + colWidth}>
-                        {products.map(p => (
-                            <div key={p.barcode} className="ProductLink">
-                                <Link to={`${match.path}/${p.barcode}/prices`}>{p.name}</Link>
-                                {p.price && <span> ({p.price})</span>}
-                            </div>
-                        ))}
+            <div className="flex flex-wrap flex-space-around">
+                {products.map(p => (
+                    <div key={p.barcode} style={{
+                        margin:'0.2rem',
+                        padding:'0.5rem'
+                    }}>
+                        <Link className="ProductLink text-decoration-none" to={`${match.path}/${p.barcode}/prices`}>
+                            {p.name}
+                            {p.price && <span className=""> ({p.price})</span>}
+                        </Link>
                     </div>
                 ))}
             </div>
         )
+
     }
 }
 
@@ -70,16 +67,4 @@ function load() {
             })
         })
     })
-}
-
-var splitArray = function splitArray(arr, size) {
-
-    var arr2 = arr.slice(0),
-        arrays = [];
-
-    while (arr2.length > 0) {
-        arrays.push(arr2.splice(0, size));
-    }
-
-    return arrays;
 }
