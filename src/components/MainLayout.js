@@ -18,7 +18,7 @@ function Sidebar(props) {
 }
 function Content(props) {
     return <div {...props} style={Object.assign({
-        padding: '0.5rem 1rem 1rem',
+        padding: '1rem',
         width: '100%'
     }, props.style)}></div>
 }
