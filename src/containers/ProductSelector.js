@@ -1,6 +1,8 @@
 import React from 'react'
 import * as API from '../api/products'
 
+import { FormGroup, ButtonGroup } from '../components/UI'
+
 class ProductSelector extends React.Component {
     constructor(props) {
         super(props)
@@ -10,20 +12,37 @@ class ProductSelector extends React.Component {
         }
     }
     render() {
-        var { barcode, products } = this.state
+        var { barcode, products, loading } = this.state
         return (
             <div>
                 <input className="form-control" type="text" onChange={this.handleBarcodeChange.bind(this)} placeholder="barcode" autoFocus />
-                {barcode.length < 2 ? 'Type a barcode' : null}
-                {barcode.length && (1 < products.length) ? <ProductsSelect products={products} /> : null}
-                {barcode.length && (products.length === 1) ? (
-                    <button className="form-control btn btn-default btn-sm" onClick={this.handleProductFound.bind(this, products[0])}>
-                        {products[0].name} ({products[0].barcode})
-                    </button>
-                ) : null}
-                {barcode.length && !products.length ? (
-                    <div>create {barcode}</div>
-                ) : null}
+                <span className="help-block">Start typing a barcode to find a product</span>
+                <ButtonGroup>
+                    {barcode.length < 2 ? null : (
+                        <button className="btn btn-default btn-sm" disabled={loading} onClick={this.handleProductCreate.bind(this, barcode)}>
+                            <i className="fa fa-plus" />
+                            <span> {barcode}</span>
+                        </button>
+                    )}
+                    {(run => {
+                        if (!run) return null
+                        var product = products.length !== 1 ? products.find(p => p.barcode === barcode) : products[0]
+                        if (!product) return null
+                        return (
+                            <button className="btn btn-default btn-sm" disabled={loading} onClick={this.handleProductFound.bind(this, product)}>
+                                <i className="fa fa-pencil" />
+                                <span> {product.name} ({product.barcode})</span>
+                            </button>
+                        )
+
+                    })(!!barcode.length)}
+                </ButtonGroup>
+                {(run => (
+                    <div>
+                        <span>Products matching {barcode}</span>
+                        <ProductsSelect disabled={loading} products={products} />
+                    </div>
+                ))(barcode.length && (1 < products.length))}
             </div>
         )
     }
@@ -31,18 +50,32 @@ class ProductSelector extends React.Component {
         if (this.state.loading) return
         this.props.onProduct(product)
     }
+    handleProductCreate(barcode) {
+        if (this.state.loading) return
+        this.props.onCreate({
+            barcode
+        })
+    }
     handleBarcodeChange(ev) {
+        this.props.onChange()
+
+        clearTimeout(this.timeout)
+
         var barcode = ev.target.value
+
         this.setState({
             barcode,
-            loading : true
+            loading: true
         }, () => {
-            this.findProducts(barcode).then(products => {
-                this.setState({
-                    products,
-                    loading : false
+            var t = setTimeout(() => {
+                this.findProducts(barcode).then(products => {
+                    this.setState({
+                        products,
+                        loading: false
+                    })
                 })
-            })
+            }, 1000)
+            this.timeout = t
         })
     }
     findProducts(barcode = '') {
@@ -60,14 +93,14 @@ export default ProductSelector
 
 function ProductsSelect(props) {
 
-    var { products } = props
+    var { products, disabled } = props
     console.log(products)
 
     if (products.length === 0) return null
 
     var size = (products.length < 10) ? products.length : 10
     return (
-        <select className="form-control" name="product" size={size}>
+        <select disabled={disabled} className="form-control" name="product" size={size}>
             {products.map(product => (
                 <option key={product.barcode} value={product.barcode}>{product.name} ({product.barcode})</option>
             ))}
