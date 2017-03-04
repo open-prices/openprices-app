@@ -4,7 +4,8 @@ import { Route, Link, Switch } from 'react-router-dom'
 import RequireUser from '../containers/RequireUser'
 
 import { Card } from '../components/UI'
-import AddProductForm from '../components/AddProductForm'
+//import AddProductForm from '../components/AddProductForm'
+import AddProductForm from '../containers/Forms/AddProduct'
 
 import ProductsListFilters from '../containers/ProductsListFilters'
 import ProductsList from '../containers/ProductsList'
@@ -20,22 +21,26 @@ class Products extends React.Component {
             <div>
                 <Route exact path={match.url} component={(props) => (
                     <div>
-                        <Card style={{ marginBottom: '1rem' }}>
-                            <ProductsListFilters {...props} />
-                            <Link to={path.join(match.url, 'create')}>Add {match.url}</Link>
-                        </Card>
+                        <div style={{ marginBottom: '1rem' }} className="flex flex-space-around">
+                            <ProductsListFilters {...props} className="shadow"/>
+                            <Link className="btn btn-default shadow" to={path.join(match.url, 'create')}>Add</Link>
+                        </div>
                         <Card>
                             <ProductsList {...props} />
                         </Card>
                     </div>
                 )} />
                 <Switch>
-
                     <Route path={path.join(match.path, '/create')} render={props => (
                         <RequireUser>
-                            <Card>
-                                <AddProductForm />
-                            </Card>
+                            <div>
+                                <Card>
+                                    <h4>Add a product</h4>
+                                </Card>
+                                <Card>
+                                    <AddProductForm />
+                                </Card>
+                            </div>
                         </RequireUser>
                     )} />
                     <Route path={path.join(match.path, '/:barcode')} render={(props) => (
