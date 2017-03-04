@@ -30,3 +30,10 @@ export function getProductPrices(barcode) {
     var ep = endpoint('/api/products/' + barcode + '/prices')
     return axios.get(ep).then(response => response.data.data)
 }
+
+export function createProduct(barcode, name) {
+    var ep = endpoint('/api/products')
+    return axios.post(ep, {
+        barcode, name
+    }).then(r => r.data.data)
+}
