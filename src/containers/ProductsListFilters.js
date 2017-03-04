@@ -22,7 +22,7 @@ class ProductsListFilters extends React.Component {
         var { name } = this.props.filters
 
         return (
-            <form className="form-inline" onSubmit={this.handleSubmit.bind(this)}>
+            <form className="form-inline shadow" onSubmit={this.handleSubmit.bind(this)}>
                 <input className="form-control" placeholder="name" name="name" onChange={this.handleChange.bind(this)} value={name || ''} />
                 {!name ? (<button className="btn btn-default" type="submit" style={{borderLeft:0}}>
                     <i className="fa fa-search"/>
