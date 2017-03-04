@@ -1,7 +1,7 @@
 import React from 'react'
 import * as API from '../api/products'
 
-import { FormGroup, ButtonGroup } from '../components/UI'
+import { FormGroup, ButtonGroup, Card } from '../components/UI'
 
 class ProductSelector extends React.Component {
     constructor(props) {
@@ -15,34 +15,46 @@ class ProductSelector extends React.Component {
         var { barcode, products, loading } = this.state
         return (
             <div>
-                <input className="form-control" type="text" onChange={this.handleBarcodeChange.bind(this)} placeholder="barcode" autoFocus />
-                <span className="help-block">Start typing a barcode to find a product</span>
-                <ButtonGroup>
-                    {barcode.length < 2 ? null : (
-                        <button className="btn btn-default btn-sm" disabled={loading} onClick={this.handleProductCreate.bind(this, barcode)}>
-                            <i className="fa fa-plus" />
-                            <span> {barcode}</span>
-                        </button>
-                    )}
-                    {(run => {
-                        if (!run) return null
-                        var product = products.length !== 1 ? products.find(p => p.barcode === barcode) : products[0]
-                        if (!product) return null
-                        return (
-                            <button className="btn btn-default btn-sm" disabled={loading} onClick={this.handleProductFound.bind(this, product)}>
-                                <i className="fa fa-pencil" />
-                                <span> {product.name} ({product.barcode})</span>
-                            </button>
-                        )
+                <Card>
+                    <input className="form-control" type="text" onChange={this.handleBarcodeChange.bind(this)} placeholder="barcode" autoFocus />
+                    <span className="help-block">Start typing a barcode to find a product</span>
+                </Card>
+                {(run => {
+                    if (!run) return null
+                    return (
+                        <Card>
+                            <ButtonGroup style={{ display: 'flex', justifyContent: 'space-around' }}>
+                                {barcode.length < 2 ? null : (
+                                    <button className="btn btn-default btn-sm" disabled={loading} onClick={this.handleProductCreate.bind(this, barcode)}>
+                                        <i className="fa fa-plus" />
+                                        <span> {barcode}</span>
+                                    </button>
+                                )}
+                                {(run => {
+                                    if (!run) return null
+                                    var product = products.length !== 1 ? products.find(p => p.barcode === barcode) : products[0]
+                                    if (!product) return null
+                                    return (
+                                        <button className="btn btn-default btn-sm" disabled={loading} onClick={this.handleProductFound.bind(this, product)}>
+                                            <i className="fa fa-pencil" />
+                                            <span> {product.name} ({product.barcode})</span>
+                                        </button>
+                                    )
 
-                    })(!!barcode.length)}
-                </ButtonGroup>
-                {(run => (
-                    <div>
-                        <span>Products matching {barcode}</span>
-                        <ProductsSelect disabled={loading} products={products} />
-                    </div>
-                ))(barcode.length && (1 < products.length))}
+                                })(!!barcode.length)}
+                            </ButtonGroup>
+                            {(run => {
+                                if (!run) return null
+                                return (
+                                    <div>
+                                        <span>Products matching {barcode}</span>
+                                        <ProductsSelect disabled={loading} products={products} />
+                                    </div>
+                                )
+                            })(barcode.length && (1 < products.length))}
+                        </Card>
+                    )
+                })(!(barcode.length < 2))}
             </div>
         )
     }
@@ -74,7 +86,7 @@ class ProductSelector extends React.Component {
                         loading: false
                     })
                 })
-            }, 1000)
+            }, 500)
             this.timeout = t
         })
     }
