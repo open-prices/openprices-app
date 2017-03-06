@@ -4,8 +4,8 @@ import { Route, Link, Switch } from 'react-router-dom'
 import RequireUser from '../containers/RequireUser'
 
 import { Card } from '../components/UI'
-//import AddProductForm from '../components/AddProductForm'
 import AddProductForm from '../containers/Forms/AddProduct'
+import AddProductPrice from '../containers/Forms/AddProductPrice'
 
 import ProductsListFilters from '../containers/ProductsListFilters'
 import ProductsList from '../containers/ProductsList'
@@ -39,6 +39,11 @@ class Products extends React.Component {
                                 </Card>
                                 <AddProductForm />
                             </div>
+                        </RequireUser>
+                    )} />
+                    <Route path={path.join(match.path, '/:barcode/prices/add')} render={(props) => (
+                        <RequireUser>
+                            <AddProductPrice {...props} barcode={props.match.params.barcode} />
                         </RequireUser>
                     )} />
                     <Route path={path.join(match.path, '/:barcode')} render={(props) => (

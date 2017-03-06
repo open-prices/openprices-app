@@ -1,4 +1,6 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+
 import { FormGroup, ButtonGroup, Card } from '../../components/UI'
 
 import ProductSelector from '../ProductSelector'
@@ -66,9 +68,17 @@ class AddProduct extends React.Component {
                 return (
                     <Card>
                         <h4>Saved!</h4>
-                        <p>created {JSON.stringify(product)}</p>
+                        <p>{create ? 'Created' : 'Edited'} product <strong>{product.name}</strong></p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi sequi quod deserunt esse aliquam! Quia culpa temporibus, quaerat consequuntur similique veritatis fugiat? Exercitationem placeat dolorum, fugiat nemo. Molestiae earum, totam.</p>
+                        <Link className="btn btn-default" to={'/products/' + product.barcode}>Go to product</Link>
+                        <pre>{JSON.stringify(this.state.product, null, 2)}</pre>
+                        <pre>{JSON.stringify(this.state.product_diff, null, 2)}</pre>
+                        <pre>{JSON.stringify(this.state.product_db, null, 2)}</pre>
                     </Card>
                 )
+            }
+            default: {
+                return null
             }
         }
 
@@ -80,7 +90,7 @@ class AddProduct extends React.Component {
         return API.createProduct(product.barcode, product.name).then(product => {
             this.setState({
                 step: 2,
-                product
+                product_db: product
             })
         })
     }
@@ -95,7 +105,7 @@ class AddProduct extends React.Component {
 
     handleProductNameChange(ev) {
         ev.preventDefault()
-        var { name, value } = ev.target
+        var { value } = ev.target
         var { product_diff = {} } = this.state
         product_diff.name = value
         this.setState({ product_diff })
