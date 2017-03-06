@@ -7,8 +7,14 @@ export function ListItem(props) {
     return <div {...props} className="list-group-item"></div>
 }
 
-export function ButtonGroup(props) { return <div {...props} className="btn-group"></div> }
-export function FormGroup(props) { return <div {...props} className="form-group"></div> }
+export function ButtonGroup(props) {
+    var className = 'btn-group ' + (props.className || '')
+    return <div {...props} className={className}></div>
+}
+export function FormGroup(props) {
+    var className = 'form-group ' + (props.className || '')
+    return <div {...props} className={className}></div>
+}
 export function StaticControl(props) {
     var labelWidth = props.labelWidth || props.size || 2
     return (

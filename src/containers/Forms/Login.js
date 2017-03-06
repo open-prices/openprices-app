@@ -2,11 +2,11 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
-import LoginForm from '../components/LoginForm'
+import LoginForm from '../../components/LoginForm'
 
-import * as User from '../modules/user.js'
+import * as User from '../../modules/user.js'
 
-import * as API from '../api/auth'
+import * as API from '../../api/auth'
 
 function ms2p(state, ownProps) {
     return state.user

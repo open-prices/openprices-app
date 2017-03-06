@@ -6,7 +6,8 @@ import ProductsRouter from '../routes/Products'
 import VendorsRouter from '../routes/Vendors'
 
 import Navbar from '../containers/Navbar'
-import LoginForm from '../containers/LoginForm'
+import LoginForm from '../containers/Forms/Login'
+import RegisterForm from '../containers/Forms/Register'
 
 
 
@@ -57,20 +58,25 @@ class MainLayout extends React.Component {
                             </li>
                         </ul>
                     </Sidebar>
-                    <Content style={{ overflow: 'hidden' }}>
+                    <Content style={{ overflow: 'auto' }}>
                         <div className="flex" style={{ height: '100%' }}>
                             <div style={{ width: '100%' }}>
+                                <Route path={'/about'} component={About} />
                                 <Route path={'/products'} component={ProductsRouter} />
                                 <Route path={'/vendors'} component={VendorsRouter} />
                                 <Route path={'/user'} component={require('../containers/User').default} />
                                 <Route path={'/login'} render={(props) => (
-                                    <div className="flex" style={{
-                                        height: '100%', width: '100%',
-                                        alignItems: 'center'
-                                    }}>
-                                        <Card style={{ margin: '0 auto' }}>
+                                    <div className="flex" style={{ height: '100%', alignItems: 'center' }}>
+                                        <div style={{ margin: '0 auto' }}>
                                             <LoginForm {...props} />
-                                        </Card>
+                                        </div>
+                                    </div>
+                                )} />
+                                <Route path={'/register'} render={(props) => (
+                                    <div className="flex" style={{ height: '100%', alignItems: 'center' }}>
+                                        <div style={{ margin: '0 auto' }}>
+                                            <RegisterForm {...props} />
+                                        </div>
                                     </div>
                                 )} />
                             </div>
@@ -84,3 +90,16 @@ class MainLayout extends React.Component {
 }
 
 export default MainLayout
+
+function About(props) {
+    var product = {
+        name: 'Nescafe dolca SUAVE 170g'
+    }
+    return (
+        <Card>
+            <h4>Saved!</h4>
+            <p>Created product <strong>{product.name}</strong></p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi sequi quod deserunt esse aliquam! Quia culpa temporibus, quaerat consequuntur similique veritatis fugiat? Exercitationem placeat dolorum, fugiat nemo. Molestiae earum, totam.</p>
+        </Card>
+    )
+}

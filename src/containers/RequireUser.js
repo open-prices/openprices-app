@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom'
 class RequireUser extends React.Component {
     render() {
         var { username } = this.props
-        
+        //username = 'axel'
         if (!username) return (
             <Redirect to={{
                 pathname: '/login',
