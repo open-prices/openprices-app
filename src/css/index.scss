@@ -42,6 +42,18 @@
             box-shadow: inset 0 0.1rem 0.1rem rgba(0,0,0,.075), 0 0 0.8rem rgba(102, 175, 233, .6);
         }
     }
+    &.btn {}
+    &.btn-default {
+        color: #333;
+        background-color: #fff;
+        border-color: #ccc;
+    }
+}
+.op.btn-default {
+    @extend .-bootstrap.btn-default;
+    color: white;
+    background-color: #0ac;
+    border: 0;
 }
 
 .op-form-control {
