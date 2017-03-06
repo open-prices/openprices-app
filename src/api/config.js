@@ -1,3 +1,16 @@
+import axios from 'axios'
+
+(axios => {
+    axios.defaults.baseURL = 'http://localhost:3001'
+    axios.interceptors.request.use(function(config){
+        if (sessionStorage.access_token) {
+            config.headers['Authorization'] = 'Bearer ' + sessionStorage.access_token
+        }
+        return config
+    })
+})(axios)
+
+
 export var BASE_URL = (function resolveBaseURL() {
     
     var { hostname, port } = window.location
@@ -13,5 +26,6 @@ export var BASE_URL = (function resolveBaseURL() {
 })()
 
 export function endpoint(path) {
+    return path
     return BASE_URL + path
 }

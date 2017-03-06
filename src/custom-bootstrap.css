@@ -40,3 +40,6 @@ pre,
 	color: white;
 	background-color: #00aacc;
 }
+
+.form-control { box-shadow: none; }
+.form-control:focus { box-shadow: none; }
