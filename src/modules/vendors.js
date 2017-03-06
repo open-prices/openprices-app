@@ -15,8 +15,8 @@ export default function reducer(state = init, action) {
 
 }
 
-export function add(product) {
-    return { type: ADD, payload: product }
+export function add(vendor) {
+    return { type: ADD, payload: vendor }
 }
 function onAdd(state, action) {
 

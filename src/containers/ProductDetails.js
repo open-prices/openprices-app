@@ -62,7 +62,7 @@ class ProductDetails extends React.Component {
                                 <Link to={match.url}>description</Link>
                             </li>
                         )} />
-                        <Route path={match.url + '/prices'} children={(props) => (
+                        <Route exact path={match.url + '/prices'} children={(props) => (
                             <li className={props.match ? 'active' : ''}>
                                 <Link to={match.url + '/prices'}>prices</Link>
                             </li>
@@ -80,7 +80,15 @@ class ProductDetails extends React.Component {
                         <Card>
                             <div className="" style={{ padding: '1rem' }}>
                                 <Route path={match.url + '/vendors'} render={(props) => (<ProductVendors barcode={barcode} />)} />
-                                <Route path={match.url + '/prices'} render={(props) => (<ProductPrices barcode={barcode} />)} />
+                                <Route exact path={match.url + '/prices'} render={(props) => (
+                                    <div>
+                                        <Link className="btn btn-default" to={match.url + '/prices/add'}>
+                                            <i className="fa fa-plus" />
+                                            <span> Add price</span>
+                                        </Link>
+                                        <ProductPrices barcode={barcode} />
+                                    </div>
+                                )} />
                             </div>
                         </Card>
                     )} />

@@ -27,8 +27,10 @@ function md2p(dispatch, ownProps) {
                     prices
                 })
                 dispatch(action)
-                prices.map(price => {
-                    return getVendor(price.vendor).then(vendor => {
+                prices.map(p => p.vendor).filter((e, i, arr) => {
+                    return arr.indexOf(e) === i
+                }).map(vendor => {
+                    return getVendor(vendor).then(vendor => {
                         var action = Vendors.add(vendor)
                         dispatch(action)
                     })
@@ -46,6 +48,8 @@ class ProductPrices extends React.Component {
         var { prices } = this.props
         return (
             <table className="table table-condensed">
+                <caption>
+                </caption>
                 <thead>
                     <tr>
                         <th>Date</th>
@@ -58,7 +62,9 @@ class ProductPrices extends React.Component {
                     {prices.map((price, i) => {
                         return (
                             <tr key={i}>
-                                <td>{new Date(price.date).toDateString()}</td>
+                                <td>
+                                    <RelativeDate date={price.date} />
+                                </td>
                                 <td>{price.price}</td>
                                 <td><VendorName id={price.vendor} /></td>
                                 <td>{price.user}</td>
@@ -80,3 +86,8 @@ var VendorName = connect((state, ownProps) => {
 })(function VendorName(props) {
     return <span>{props.name}</span>
 })
+
+function RelativeDate(props) {
+    var moment = require('moment')
+    return <span>{moment(props.date).add(1, 'd').format('L')}</span>
+}

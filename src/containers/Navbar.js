@@ -12,7 +12,7 @@ class Navbar extends React.Component {
                     <div className="flex" style={{ padding: '0.25rem 1rem', justifyContent: 'space-between' }}>
                         <div className="navbar-text"></div>
                         <div className="navbar-brand">
-                            <Link className="navbar-link text-decoration-none" to="/" style={{
+                            <Link className="navbar-link text-decoration-none" to="/about" style={{
                                 color: 'white', fontWeight: 'bolder'
                             }}>
                                 OpenPrices.org

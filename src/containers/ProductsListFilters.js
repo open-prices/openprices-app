@@ -22,14 +22,22 @@ class ProductsListFilters extends React.Component {
         var { name } = this.props.filters
 
         return (
-            <form className="form-inline shadow" onSubmit={this.handleSubmit.bind(this)}>
-                <input className="form-control" placeholder="name" name="name" onChange={this.handleChange.bind(this)} value={name || ''} />
-                {!name ? (<button className="btn btn-default" type="submit" style={{borderLeft:0}}>
-                    <i className="fa fa-search"/>
-                </button>):
-                (<button className="btn btn-default" type="reset" onClick={this.handleReset.bind(this)} style={{borderLeft:0}}>
-                    <i className="fa fa-times"/>
-                </button>)}
+            <form className="form-inline shadow" onSubmit={this.handleSubmit.bind(this)} autoComplete="off">
+                <i className="fa fa-search" style={{
+                    position: 'relative', width: 0, left: '1rem'
+                }} />
+                <input className="form-control" placeholder="name" name="name" onChange={this.handleChange.bind(this)} value={name || ''} style={{
+                    paddingLeft: '3rem'
+                }} />
+                {(run => {
+                    if (!name) return null
+                    return (
+                        <i className="fa fa-times" style={{
+                            position: 'relative', width: 0, right: '2rem',
+                            color: 'indianred'
+                        }} onClick={this.handleReset.bind(this)} />
+                    )
+                })(name)}
             </form>
         )
     }
@@ -45,7 +53,7 @@ class ProductsListFilters extends React.Component {
     }
     handleReset(ev) {
         this.props.onSubmit({
-            name : undefined
+            name: undefined
         })
     }
 }

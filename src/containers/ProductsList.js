@@ -2,6 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
+import * as API from '../api/products'
+import * as Products from '../modules/products'
+
 function ms2p(state, ownProps) {
     var barcodes = state.products.products
     var productsByBarcode = state.products.productsByBarcode
@@ -17,7 +20,10 @@ function ms2p(state, ownProps) {
     });
     if (filters.name) {
         var filtered_products = simple_products.filter(product => {
-            return product.name.toLowerCase().indexOf(filters.name.toLowerCase()) !== -1
+            var matches_name = product.name.toLowerCase().indexOf(filters.name.toLowerCase()) !== -1
+            var matches_barcode = product.barcode.toLowerCase().indexOf(filters.name.toLowerCase()) !== -1
+
+            return matches_name || matches_barcode
         })
     }
 
@@ -38,33 +44,42 @@ class ProductsList extends React.Component {
 
         return (
             <div className="flex flex-wrap flex-space-around">
-                {products.map(p => (
-                    <div key={p.barcode} style={{
-                        margin:'0.2rem',
-                        padding:'0.5rem'
-                    }}>
-                        <Link className="ProductLink text-decoration-none" to={`${match.path}/${p.barcode}/prices`}>
-                            {p.name}
-                            {p.price && <span className=""> ({p.price})</span>}
-                        </Link>
-                    </div>
-                ))}
+                {products.map(p => {
+                    var price = p.price ? p.price.toFixed(2) : null
+                    return (
+                        <div key={p.barcode} style={{
+                            margin: '0.2rem',
+                            padding: '0.5rem'
+                        }}>
+                            <Link className="ProductLink text-decoration-none" to={`${match.path}/${p.barcode}/prices`}>
+                                {p.name}
+                                {p.price && <span className=""> ({price})</span>}
+                            </Link>
+                        </div>
+                    )
+                })}
             </div>
         )
 
     }
 }
 
-export default connect(ms2p)(ProductsList)
+export default connect(ms2p, (dispatch, ownProps) => {
+    return {
+        loadProduct(barcode) {
+            return API.getProduct(barcode).then(product => {
+                dispatch(Products.add(product))
+            })
+        }
+    }
+})(ProductsList)
 
 function load() {
     var store = require('../store').default
-    require('../api/products').getProducts().then(ps => {
+    API.getProducts().then(ps => {
         ps.map(p => {
-            return store.dispatch({
-                type: 'PRODUCTS/ADD',
-                payload: p
-            })
+            //API.getProduct(p.barcode).then(product => store.dispatch(Products.add(product)))
+            return store.dispatch(Products.add(p))
         })
     })
 }

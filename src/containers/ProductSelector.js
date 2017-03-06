@@ -1,7 +1,7 @@
 import React from 'react'
 import * as API from '../api/products'
 
-import { FormGroup, ButtonGroup, Card } from '../components/UI'
+import { ButtonGroup, Card } from '../components/UI'
 
 class ProductSelector extends React.Component {
     constructor(props) {
@@ -113,7 +113,9 @@ function ProductsSelect(props) {
     var size = (products.length < 10) ? products.length : 10
     return (
         <select disabled={disabled} className="form-control" name="product" size={size}>
-            {products.map(product => (
+            {products.sort((a, b) => {
+                return (a.name || '').localeCompare(b.name || '')
+            }).map(product => (
                 <option key={product.barcode} value={product.barcode}>{product.name} ({product.barcode})</option>
             ))}
         </select>
