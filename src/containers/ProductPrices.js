@@ -56,6 +56,7 @@ class ProductPrices extends React.Component {
                         <th>Price</th>
                         <th>Vendor</th>
                         <th>User</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,7 +68,12 @@ class ProductPrices extends React.Component {
                                 </td>
                                 <td>{price.price}</td>
                                 <td><VendorName id={price.vendor} /></td>
-                                <td>{price.user}</td>
+                                <td>
+                                    {price.user}
+                                </td>
+                                <td>
+                                    <DeletePriceButton price={price} priceId={price.id} userId={price.user} />
+                                </td>
                             </tr>
                         )
                     })}
@@ -91,3 +97,28 @@ function RelativeDate(props) {
     var moment = require('moment')
     return <span>{moment(props.date).add(1, 'd').format('L')}</span>
 }
+var DeletePriceButton = connect((state, ownProps) => {
+    
+    var { price } = ownProps
+    var { user } = state
+
+    return { owns : user.id === price.user }
+
+}, (dispatch, ownProps)=>{
+    var { price } = ownProps
+    return {
+        onClick(){
+            
+            dispatch(Products.deletePrice(price))
+
+            return API.Products.deletePrice(price.id)
+        }
+    }
+})(function DeletePriceButton(props) {
+    if (!props.owns) return null
+    return (
+        <button className="btn btn-danger btn-xs" onClick={props.onClick}>
+            <i className="fa fa-times"/>
+        </button>
+    )
+})
