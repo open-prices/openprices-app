@@ -64,7 +64,11 @@ class AddProductPrice extends React.Component {
                             <FormGroup>
                                 <label className="col-sm-4 control-label">Vendor</label>
                                 <div className="col-sm-8">
-                                    <VendorsSelect name="vendor" className="form-control" />
+                                    <div className="flex">
+                                        <VendorsSelect name="vendor" className="form-control" />
+                                        <span style={{ padding: '0.6rem 1.2rem' }}> OR </span>
+                                        <input name="vendor_code" className="form-control" placeholder="Code" />
+                                    </div>
                                 </div>
                             </FormGroup>
                             <FormGroup>
@@ -87,11 +91,14 @@ class AddProductPrice extends React.Component {
 
     handleSubmit(ev) {
         ev.preventDefault()
+
         var fd = new FormData(this.form)
         var price = fd.get('price')
         var date = new Date(fd.get('date')).toISOString()
         var vendor = fd.get('vendor')
-        return API.createProductPrice(this.props.barcode, price, vendor, date).then(price => {
+        var vendor_code = fd.get('vendor_code')
+
+        return API.createProductPrice(this.props.barcode, price, vendor_code || vendor, date).then(price => {
             this.setState({
                 redirect: {
                     to: '/products/' + this.props.barcode + '/prices'
@@ -117,7 +124,7 @@ var VendorsSelect = connect((state) => {
     var { vendorsById } = state.vendors
     var vendors = state.vendors.vendors.map(id => vendorsById[id])
     return { vendors }
-}, (dispatch)=>{
+}, (dispatch) => {
     var Vendors = require('../../modules/vendors')
     var API = require('../../api/vendors')
     API.getVendors().then(vendors => {
@@ -125,10 +132,12 @@ var VendorsSelect = connect((state) => {
             dispatch(Vendors.add(v))
         })
     })
+    return {}
 })(props => {
     var { vendors, className, name, style } = props
     return (
         <select className={className} name={name} style={style}>
+            <option value="">Select a vendor</option>
             {vendors.map((v, i) => (<option key={i} value={v.code}>{v.name}</option>))}
         </select>
     )
