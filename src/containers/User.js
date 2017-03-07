@@ -25,7 +25,7 @@ export default connect((state, ownProps) => {
         }
     }
 })(function User(props) {
-    //props.verify()
+    props.verify()
     var { username } = props.user
 
     if (!username) return (
