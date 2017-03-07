@@ -43,3 +43,7 @@ export function createProductPrice(barcode, price, vendor, date) {
         price, vendor, date
     }).then(r => r.data.data)
 }
+export function deletePrice(id) {
+    var ep = endpoint('/api/prices/' + id)
+    return axios.delete(ep)
+}
