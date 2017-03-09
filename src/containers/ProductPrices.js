@@ -2,19 +2,23 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import * as API from '../api'
-
-import * as Products from '../modules/products'
 var { getProductPrices } = API.Products
-
-import * as Vendors from '../modules/vendors'
 var { getVendor } = API.Vendors
+
+import * as Prices from '../modules/prices'
+import * as Vendors from '../modules/vendors'
+
+
+
+import UserNickname from './UserNickname'
+import VendorName from './VendorName'
 
 
 
 function ms2p(state, ownProps) {
     var product = state.products.productsByBarcode[ownProps.barcode]
     return {
-        prices: product.prices || []
+        prices: state.prices.allIds.map(id => state.prices.byId[id]).filter(price => price.product === product.id)
     }
 }
 function md2p(dispatch, ownProps) {
@@ -22,14 +26,11 @@ function md2p(dispatch, ownProps) {
     return {
         load: () => {
             return getProductPrices(barcode).then(prices => {
-                var action = Products.add({
-                    barcode,
-                    prices
+                prices.map(price => {
+                    var action = Prices.add(price)
+                    return dispatch(action)
                 })
-                dispatch(action)
-                prices.map(p => p.vendor).filter((e, i, arr) => {
-                    return arr.indexOf(e) === i
-                }).map(vendor => {
+                prices.map(p => p.vendor).filter((e, i, arr) => arr.indexOf(e) === i).map(vendor => {
                     return getVendor(vendor).then(vendor => {
                         var action = Vendors.add(vendor)
                         dispatch(action)
@@ -69,10 +70,10 @@ class ProductPrices extends React.Component {
                                 <td>{price.price}</td>
                                 <td><VendorName id={price.vendor} /></td>
                                 <td>
-                                    {price.user}
+                                    <UserNickname id={price.user} />
                                 </td>
                                 <td>
-                                    <DeletePriceButton price={price} priceId={price.id} userId={price.user} />
+                                    <DeletePriceButton id={price.id} />
                                 </td>
                             </tr>
                         )
@@ -85,40 +86,41 @@ class ProductPrices extends React.Component {
 
 export default connect(ms2p, md2p)(ProductPrices)
 
-var VendorName = connect((state, ownProps) => {
-    var vendor = state.vendors.vendorsById[ownProps.id] || {}
-    var name = vendor.name
-    return { name }
-})(function VendorName(props) {
-    return <span>{props.name}</span>
-})
-
 function RelativeDate(props) {
     var moment = require('moment')
     return <span>{moment(props.date).add(1, 'd').format('L')}</span>
 }
+
 var DeletePriceButton = connect((state, ownProps) => {
-    
-    var { price } = ownProps
-    var { user } = state
 
-    return { owns : user.id === price.user }
+    var { id } = ownProps
+    var { user, prices } = state
 
-}, (dispatch, ownProps)=>{
-    var { price } = ownProps
+    var price = prices.byId[id]
+
     return {
-        onClick(){
-            
-            dispatch(Products.deletePrice(price))
+        owns: user.id === price.user
+    }
 
-            return API.Products.deletePrice(price.id)
+}, (dispatch, ownProps) => {
+
+    var { id } = ownProps
+
+    return {
+        onClick() {
+
+            dispatch(Prices.remove(id))
+
+            return API.Products.deletePrice(id)
+
         }
     }
+
 })(function DeletePriceButton(props) {
     if (!props.owns) return null
     return (
         <button className="btn btn-danger btn-xs" onClick={props.onClick}>
-            <i className="fa fa-times"/>
+            <i className="fa fa-times" />
         </button>
     )
 })
