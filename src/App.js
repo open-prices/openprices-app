@@ -8,8 +8,8 @@ import Home from './components/Home'
 
 import './App.css'
 
-var Router = BrowserRouter
-//var Router = HashRouter
+//var Router = BrowserRouter
+var Router = HashRouter
 
 var basename
 //var basename = '/openprices-app'
