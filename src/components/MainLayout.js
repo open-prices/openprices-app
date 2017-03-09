@@ -48,12 +48,12 @@ class MainLayout extends React.Component {
                         <ul className="nav nav-pills nav-stacked">
                             <li>
                                 <NavLink to="/products" activeStyle={{ color: 'white', backgroundColor: 'hsla(190, 100%, 40%, 1)' }}>
-                                    P
+                                    Products
                                 </NavLink>
                             </li>
                             <li>
                                 <NavLink to="/vendors" activeStyle={{ color: 'white', backgroundColor: 'hsla(190, 100%, 40%, 1)' }}>
-                                    V
+                                    Vendors
                                 </NavLink>
                             </li>
                         </ul>
