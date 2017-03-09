@@ -129,7 +129,7 @@ var VendorsSelect = connect((state) => {
     var API = require('../../api/vendors')
     API.getVendors().then(vendors => {
         vendors.map(v => {
-            dispatch(Vendors.add(v))
+            return dispatch(Vendors.add(v))
         })
     })
     return {}
