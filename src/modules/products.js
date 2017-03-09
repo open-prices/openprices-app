@@ -55,11 +55,12 @@ function onDeletePrice(state, action) {
 
     products.map(barcode => {
         var product = productsByBarcode[barcode]
-        if (!product.prices) return
+        if (!product.prices) return product
         product.prices = product.prices.filter(price => {
             return price.id !== payload.id
         })
         productsByBarcode[barcode] = product
+        return product
     })
 
     return Object.assign({}, state, {
