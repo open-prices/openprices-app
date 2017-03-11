@@ -1,6 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+import { Button, Popconfirm } from 'antd'
+
 import * as API from '../api'
 var { getProductPrices } = API.Products
 var { getVendor } = API.Vendors
@@ -49,8 +51,6 @@ class ProductPrices extends React.Component {
         var { prices } = this.props
         return (
             <table className="table table-condensed">
-                <caption>
-                </caption>
                 <thead>
                     <tr>
                         <th>Date</th>
@@ -119,8 +119,10 @@ var DeletePriceButton = connect((state, ownProps) => {
 })(function DeletePriceButton(props) {
     if (!props.owns) return null
     return (
-        <button className="btn btn-danger btn-xs" onClick={props.onClick}>
-            <i className="fa fa-times" />
-        </button>
+        <Popconfirm title="Delete price?" okText="yes" cancelText="no!" onConfirm={props.onClick}>
+            <Button type="danger" size="small">
+                <i className="fa fa-times" />
+            </Button>
+        </Popconfirm>
     )
 })

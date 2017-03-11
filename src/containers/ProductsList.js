@@ -1,9 +1,9 @@
-import React from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 
 import * as API from '../api/products'
 import * as Products from '../modules/products'
+
+import ProductsList from '../components/ProductsList'
 
 function ms2p(state, ownProps) {
     var barcodes = state.products.products
@@ -34,52 +34,18 @@ function ms2p(state, ownProps) {
     }
 }
 
-class ProductsList extends React.Component {
-    componentWillMount() {
-        load()
-    }
-    render() {
-
-        var { match, products } = this.props
-
-        return (
-            <div className="flex flex-wrap flex-space-around">
-                {products.map(p => {
-                    var price = p.price ? p.price.toFixed(2) : null
-                    return (
-                        <div key={p.barcode} style={{
-                            margin: '0.2rem',
-                            padding: '0.5rem'
-                        }}>
-                            <Link className="ProductLink text-decoration-none" to={`${match.path}/${p.barcode}/prices`}>
-                                {p.name}
-                                {p.price && <span className=""> ({price})</span>}
-                            </Link>
-                        </div>
-                    )
-                })}
-            </div>
-        )
-
-    }
-}
-
 export default connect(ms2p, (dispatch, ownProps) => {
     return {
         loadProduct(barcode) {
             return API.getProduct(barcode).then(product => {
                 dispatch(Products.add(product))
             })
+        },
+        loadProducts() {
+            return API.getProducts().then(ps => {
+                ps.map(p => { return dispatch(Products.add(p)) })
+                return ps
+            })
         }
     }
 })(ProductsList)
-
-function load() {
-    var store = require('../store').default
-    API.getProducts().then(ps => {
-        ps.map(p => {
-            //API.getProduct(p.barcode).then(product => store.dispatch(Products.add(product)))
-            return store.dispatch(Products.add(p))
-        })
-    })
-}

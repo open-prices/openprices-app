@@ -4,11 +4,13 @@ import { Route, Link, Switch } from 'react-router-dom'
 import memoize from '../memoize'
 
 import * as API from '../api/products'
+//var getProduct = API.getProduct
 var getProduct = memoize(API.getProduct, { expires: 1000 * 60 })
 
 import * as Products from '../modules/products'
 
-import { StaticControl, Card } from '../components/UI'
+import { StaticControl } from '../components/UI'
+import { Button, Card } from 'antd'
 
 import ProductVendors from './ProductVendors'
 import ProductPrices from './ProductPrices'
@@ -37,7 +39,6 @@ class ProductDetails extends React.Component {
         this.props.loadDetails()
     }
     render() {
-        console.log('ProductDetails.render', this.props)
 
         var { match, product } = this.props
         if (!product) return null
@@ -45,10 +46,8 @@ class ProductDetails extends React.Component {
 
         return (
             <div>
-                <Card style={{ marginBottom: '1rem' }}>
-                    <h4>{name}</h4>
-                </Card>
-                <Card style={{ marginBottom: '1rem' }}>
+                <Card style={{ marginBottom: '1rem' }} title={name}>
+
                     <div className="form-horizontal">
                         <StaticControl label="Barcode" value={barcode} size={6} />
                         <StaticControl label="Name" value={name} size={6} />
@@ -82,10 +81,12 @@ class ProductDetails extends React.Component {
                                 <Route path={match.url + '/vendors'} render={(props) => (<ProductVendors barcode={barcode} />)} />
                                 <Route exact path={match.url + '/prices'} render={(props) => (
                                     <div>
-                                        <Link className="btn btn-default" to={match.url + '/prices/add'}>
-                                            <i className="fa fa-plus" />
-                                            <span> Add price</span>
-                                        </Link>
+                                        <Button size="small">
+                                            <Link to={match.url + '/prices/add'}>
+                                                <i className="fa fa-plus" />
+                                                <span> Add price</span>
+                                            </Link>
+                                        </Button>
                                         <ProductPrices barcode={barcode} />
                                     </div>
                                 )} />

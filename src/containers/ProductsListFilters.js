@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 
 import { set } from '../modules/productsListFilters'
 
+import { Input } from 'antd'
+
 function ms2p(state, ownProps) {
     var filters = state.productsListFilters
     return { filters }
@@ -22,24 +24,13 @@ class ProductsListFilters extends React.Component {
         var { name } = this.props.filters
 
         return (
-            <form className="form-inline shadow" onSubmit={this.handleSubmit.bind(this)} autoComplete="off">
-                <i className="fa fa-search" style={{
-                    position: 'relative', width: 0, left: '1rem'
-                }} />
-                <input className="form-control" placeholder="name" name="name" onChange={this.handleChange.bind(this)} value={name || ''} style={{
-                    paddingLeft: '3rem'
-                }} />
-                {(run => {
-                    if (!name) return null
-                    return (
-                        <i className="fa fa-times" style={{
-                            position: 'relative', width: 0, right: '2rem',
-                            color: 'indianred'
-                        }} onClick={this.handleReset.bind(this)} />
-                    )
-                })(name)}
+            <form className="form-inline" onSubmit={this.handleSubmit.bind(this)} autoComplete="off">
+                <Input.Search defaultValue={name} placeholder="Name or barcode" name="name" onChange={this.handleChange.bind(this)} onSearch={this.handleSearch.bind(this)} />
             </form>
         )
+    }
+    handleSearch(value) {
+        this.props.onSubmit({ name: value })
     }
     handleSubmit(ev) {
         (ev.preventDefault && ev.preventDefault())

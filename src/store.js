@@ -9,16 +9,16 @@ import user from './modules/user'
 import users from './modules/users'
 
 var middleware = applyMiddleware(thunk)
-var composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ name: 'Products' }) : compose;
+var composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ name: 'App' }) : compose;
 var enhancers = composeEnhancers(middleware);
 
 var reducers = combineReducers({
-    products,
     prices,
+    products,
     productsListFilters,
-    vendors,
     user,
-    users
+    users,
+    vendors
 })
 
 var store = createStore(reducers, {}, enhancers)

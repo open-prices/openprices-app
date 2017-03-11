@@ -1,9 +1,10 @@
 import React from 'react'
 import { Route, Link, Switch } from 'react-router-dom'
 
+import { Button, Card } from 'antd'
+
 import RequireUser from '../containers/RequireUser'
 
-import { Card } from '../components/UI'
 import AddProductForm from '../containers/Forms/AddProduct'
 import AddProductPrice from '../containers/Forms/AddProductPrice'
 
@@ -23,18 +24,20 @@ class Products extends React.Component {
                     <div>
                         <div style={{ marginBottom: '1rem' }} className="flex flex-space-around">
                             <ProductsListFilters {...props} className="shadow" />
-                            <Link className="btn btn-default shadow" to={path.join(match.url, 'create')}>Add</Link>
+                            <Button shape="circle">
+                                <Link to={path.join(match.url, 'create')}>
+                                    <i className="fa fa-plus" />
+                                </Link>
+                            </Button>
                         </div>
-                        <Card>
-                            <ProductsList {...props} />
-                        </Card>
+                        <ProductsList {...props} />
                     </div>
                 )} />
                 <Switch>
                     <Route path={path.join(match.path, '/create')} render={props => (
                         <RequireUser>
                             <div>
-                                <Card>
+                                <Card style={{ marginBottom: '1rem' }}>
                                     <h4>Add a product</h4>
                                 </Card>
                                 <AddProductForm />

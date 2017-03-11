@@ -1,7 +1,8 @@
 import React from 'react'
 import * as API from '../api/products'
 
-import { ButtonGroup, Card } from '../components/UI'
+import { ButtonGroup } from '../components/UI'
+import { Card } from 'antd'
 
 class ProductSelector extends React.Component {
     constructor(props) {

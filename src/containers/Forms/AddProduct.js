@@ -1,7 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { FormGroup, ButtonGroup, Card } from '../../components/UI'
+import { FormGroup, ButtonGroup } from '../../components/UI'
+import { Card } from 'antd'
 
 import ProductSelector from '../ProductSelector'
 
