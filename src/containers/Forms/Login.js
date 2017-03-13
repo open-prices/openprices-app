@@ -15,7 +15,10 @@ function md2p(dispatch, ownProps) {
     return {
         onSubmit: (username, password) => {
             API.login(username, password).then(user => {
-                var action = User.set(user.data)
+                var action = User.set({
+                    ...user.data,
+                    token : user
+                })
                 dispatch(action)
             })
         }

@@ -1,7 +1,11 @@
 export const SET = 'USER/SET'
 export const CLEAR = 'USER/CLEAR'
 
-var init = sessionStorage.access_token_decoded ? JSON.parse(sessionStorage.access_token_decoded).data : {}
+var sessionToken = sessionStorage.access_token_decoded ? JSON.parse(sessionStorage.access_token_decoded) : {}
+var init = {
+    ...sessionToken.data,
+    token: sessionToken
+}
 export default function reducer(state = init, action) {
 
     switch (action.type) {
