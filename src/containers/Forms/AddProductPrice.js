@@ -56,12 +56,6 @@ class AddProductPrice extends React.Component {
                                 </div>
                             </FormGroup>
                             <FormGroup>
-                                <label className="col-sm-4 control-label">Date</label>
-                                <div className="col-sm-8">
-                                    <input type="date" className="form-control" name="date" defaultValue={defaultDate} required />
-                                </div>
-                            </FormGroup>
-                            <FormGroup>
                                 <label className="col-sm-4 control-label">Vendor</label>
                                 <div className="col-sm-8">
                                     <div className="flex">
@@ -69,6 +63,12 @@ class AddProductPrice extends React.Component {
                                         <span style={{ padding: '0.6rem 1.2rem' }}> OR </span>
                                         <input name="vendor_code" className="form-control" placeholder="Code" />
                                     </div>
+                                </div>
+                            </FormGroup>
+                            <FormGroup>
+                                <label className="col-sm-4 control-label">Date</label>
+                                <div className="col-sm-8">
+                                    <input type="date" className="form-control" name="date" defaultValue={defaultDate} required />
                                 </div>
                             </FormGroup>
                             <FormGroup>
