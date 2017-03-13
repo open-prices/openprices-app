@@ -19,7 +19,6 @@ function md2p(dispatch) {
 
 class ProductsListFilters extends React.Component {
     render() {
-        console.log('ProductsListFilters.render')
 
         var { name } = this.props.filters
 

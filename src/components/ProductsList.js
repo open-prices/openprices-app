@@ -6,7 +6,6 @@ import {
     Card,
     Table
 } from 'antd'
-var ButtonGroup = Button.Group
 
 class ProductsList extends React.Component {
     constructor() {
@@ -18,7 +17,6 @@ class ProductsList extends React.Component {
     }
     render() {
 
-        var { match, products } = this.props
         var { loading } = this.state
 
         return (
@@ -27,7 +25,7 @@ class ProductsList extends React.Component {
                     {loading ? <i className="fa fa-spinner fa-pulse" /> : <i className="fa fa-refresh" />}
                 </Button>
             )}>
-                <Table dataSource={this.dataSource()} columns={this.columns()} size="small" pagination={{ pageSize: 5 }} />
+                <Table dataSource={this.dataSource()} columns={this.columns()} size="small" pagination={{ pageSize: 10 }} />
             </Card>
         )
     }
@@ -35,31 +33,21 @@ class ProductsList extends React.Component {
         var { products } = this.props
         return products.map(product => {
             return Object.assign({
-                key : product.barcode
+                key: product.barcode
             }, product)
         })
     }
     columns() {
         return [{
-            title: 'Barcode', dataIndex: 'barcode', key: 'barcode'
+            title: 'Barcode', dataIndex: 'barcode', key: 'barcode',
+            render: barcode => <Link to={'/products/' + barcode + '/prices'}>{barcode}</Link>
         }, {
             title: 'Name', dataIndex: 'name', key: 'name'
         }, {
             title: 'Price', dataIndex: 'price', key: 'price'
         }, {
-            title: 'Actions', dataIndex: 'barcode', key: 'actions',
-            render: (barcode) => {
-                return (
-                    <ButtonGroup>
-                        <Button size="small">
-                            <Link to={'/products/' + barcode + '/prices'}>prices</Link>
-                        </Button>
-                        <Button size="small">
-                            <Link to={'/products/' + barcode + '/vendors'}>vendors</Link>
-                        </Button>
-                    </ButtonGroup>
-                )
-            }
+            title: 'Updated at', dataIndex: 'updatedAt', key: 'updatedAt',
+            render: date => <RelativeDate date={date} />
         }]
     }
     reload() {
@@ -71,3 +59,8 @@ class ProductsList extends React.Component {
 }
 
 export default ProductsList
+
+function RelativeDate(props) {
+    var moment = require('moment')
+    return <span>{moment(props.date).fromNow()}</span>
+}

@@ -15,7 +15,8 @@ function ms2p(state, ownProps) {
         return {
             barcode: bc,
             name: product.name || bc,
-            price: product.price
+            price: product.price,
+            updatedAt : product.updatedAt
         }
     });
     if (filters.name) {

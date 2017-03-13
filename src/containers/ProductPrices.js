@@ -88,7 +88,7 @@ export default connect(ms2p, md2p)(ProductPrices)
 
 function RelativeDate(props) {
     var moment = require('moment')
-    return <span>{moment(props.date).add(1, 'd').format('L')}</span>
+    return <span>{moment(props.date).fromNow()}</span>
 }
 
 var DeletePriceButton = connect((state, ownProps) => {
