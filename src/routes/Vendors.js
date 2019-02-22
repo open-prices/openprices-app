@@ -2,7 +2,7 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { Card } from '../components/UI'
+import { Card } from 'antd'
 
 import path from 'path'
 

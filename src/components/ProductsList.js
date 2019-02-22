@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { Motion, spring } from 'react-motion'
 
 import {
     Button,
@@ -25,7 +26,26 @@ class ProductsList extends React.Component {
                     {loading ? <i className="fa fa-spinner fa-pulse" /> : <i className="fa fa-refresh" />}
                 </Button>
             )}>
-                <Table dataSource={this.dataSource()} columns={this.columns()} size="small" pagination={{ pageSize: 10 }} />
+                <Motion defaultStyle={{
+                    opacity: 0,
+                    h: 0
+                }} style={{
+                    opacity: spring(1, {
+                        stiffness: 70, damping: 50
+                    }),
+                    h : spring(1, {
+                        stiffness: 70
+                    })
+                }}>
+                    {style => {
+                        var x = style.h
+                        if (x < 1) {
+                            style.maxHeight = (x * window.innerHeight) + 'px'
+                            style.overflow = 'hidden'
+                        }
+                        return <Table style={style} dataSource={this.dataSource()} columns={this.columns()} size="small" pagination={{ pageSize: 10 }} />
+                    }}
+                </Motion>
             </Card>
         )
     }

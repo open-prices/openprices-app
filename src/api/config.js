@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 (axios => {
-    axios.defaults.baseURL = 'http://localhost:3001'
+    //axios.defaults.baseURL = 'http://localhost:3001'
     axios.interceptors.request.use(function (config) {
         if (sessionStorage.access_token) {
             config.headers['Authorization'] = 'Bearer ' + sessionStorage.access_token
@@ -21,7 +21,7 @@ export var BASE_URL = (function resolveBaseURL() {
         case 'open-prices.github.io':
             return 'https://openprices-api.zapto.org'
         default:
-            if (port === '3000') return 'http://localhost:3001'
+            //if (port === '3000') return 'http://localhost:3001'
             return ''
     }
 
